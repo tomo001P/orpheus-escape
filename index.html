@@ -1,0 +1,421 @@
+!DOCTYPE html>
+
+<html lang="ja">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ORPHEUS ESCAPE</title>
+
+<style>
+
+*{box-sizing:border-box}
+
+body{
+
+ margin:0;background:#071522;color:#eef7ff;
+
+ font-family:serif;min-height:100vh;
+
+}
+
+#app{max-width:600px;margin:auto;min-height:100vh;
+
+ background:linear-gradient(180deg,#102c43,#071522);
+
+ padding:22px 18px 35px}
+
+header{text-align:center;padding:20px 0}
+
+h1{font-size:35px;letter-spacing:4px;color:#e5c995;margin:10px 0}
+
+.subtitle{letter-spacing:5px;color:#9eb9cb;font-size:11px}
+
+.ship{
+
+ height:190px;position:relative;overflow:hidden;
+
+ border:1px solid #66869a;border-radius:12px;
+
+ background:linear-gradient(#162e49 0%,#52758a 55%,#142b3c 56%,#071522 100%);
+
+ perspective:400px;
+
+}
+
+.ship:before{
+
+ content:"";position:absolute;left:20%;right:20%;bottom:35px;
+
+ height:95px;background:linear-gradient(90deg,#a9a08b,#eee0bd,#867c6b);
+
+ clip-path:polygon(12% 0,88% 0,100% 100%,0 100%);
+
+ box-shadow:0 0 30px #d9c9a0;
+
+}
+
+.ship:after{
+
+ content:"";position:absolute;left:35%;right:35%;bottom:130px;
+
+ height:30px;background:#e6d7b6;
+
+ clip-path:polygon(15% 0,85% 0,100% 100%,0 100%);
+
+}
+
+.stars{position:absolute;inset:0;
+
+ background:radial-gradient(circle at 15% 20%,white 1px,transparent 2px),
+
+ radial-gradient(circle at 75% 15%,white 1px,transparent 2px),
+
+ radial-gradient(circle at 45% 30%,white 1px,transparent 2px)}
+
+#content{margin-top:22px}
+
+h2{color:#e5c995;font-size:23px}
+
+p{line-height:1.9;color:#d2e0e9}
+
+button{
+
+ width:100%;padding:15px;margin:7px 0;
+
+ border:1px solid #bba77e;border-radius:9px;
+
+ background:#19364b;color:white;font-size:16px;
+
+ cursor:pointer;
+
+}
+
+button:active{background:#365b70}
+
+.primary{background:#9c7947;color:white;font-weight:bold}
+
+.info{border:1px solid #456174;padding:13px;
+
+ border-radius:9px;background:#10283a;margin:15px 0}
+
+#inventory{font-size:13px;color:#c6d6df}
+
+footer{text-align:center;color:#69879b;font-size:11px;margin-top:35px}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="app">
+
+<header>
+
+<div class="subtitle">A MYSTERY ON THE OCEAN</div>
+
+<h1>ORPHEUS</h1>
+
+<div class="subtitle">ESCAPE</div>
+
+</header>
+
+<div class="ship"><div class="stars"></div></div>
+
+<div id="content"></div>
+
+<footer>ORPHEUS ESCAPE · CHAPTER 01</footer>
+
+</div>
+
+<script>
+
+const content=document.getElementById("content");
+
+let inventory=[];
+
+let clue=false;
+
+let valve=false;
+
+let code=false;
+
+function item(name){
+
+ if(!inventory.includes(name)) inventory.push(name);
+
+}
+
+function show(html){
+
+ content.innerHTML=html+
+
+ '<div class="info" id="inventory">🎒 所持アイテム：'+
+
+ (inventory.length?inventory.join(" / "):"まだ何も持っていない")+
+
+ '</div>';
+
+}
+
+function title(){
+
+ show(`
+
+ <h2>オルフェウス号の謎</h2>
+
+ <p>1912年。大西洋を航行する豪華客船オルフェウス号。</p>
+
+ <p>翼とともは、夢のような船旅を楽しんでいた。</p>
+
+ <p>しかし真夜中、突然船内の照明が消えた。</p>
+
+ <p>目を覚ますと、船内には誰もいない。</p>
+
+ <p>そして、謎のアナウンスが響き渡る。</p>
+
+ <div class="info">「乗船客の皆様へ。船はまもなく航行不能となります。」</div>
+
+ <button class="primary" onclick="cabin()">ゲームスタート</button>
+
+ `);
+
+}
+
+function cabin(){
+
+ show(`
+
+ <h2>CHAPTER 1：客室</h2>
+
+ <p>目を覚ました翼ととも。そこは豪華な客室だった。</p>
+
+ <p>窓の外には暗い海。部屋のドアには鍵がかかっている。</p>
+
+ <button onclick="desk()">🗝️ 机を調べる</button>
+
+ <button onclick="windowView()">🌊 窓の外を見る</button>
+
+ <button onclick="door()">🚪 ドアを開ける</button>
+
+ `);
+
+}
+
+function desk(){
+
+ item("真鍮の鍵");
+
+ show(`
+
+ <h2>机の中</h2>
+
+ <p>古びた机の引き出しから、真鍮の鍵を見つけた。</p>
+
+ <p>鍵には小さく「ORPHEUS」と刻まれている。</p>
+
+ <button onclick="cabin()">客室に戻る</button>
+
+ `);
+
+}
+
+function windowView(){
+
+ show(`
+
+ <h2>窓の外</h2>
+
+ <p>月明かりに照らされた海。</p>
+
+ <p>遠くに救命ボートらしき影が見える。</p>
+
+ <p>船は少しずつ傾いているようだ……。</p>
+
+ <button onclick="cabin()">戻る</button>
+
+ `);
+
+}
+
+function door(){
+
+ if(!inventory.includes("真鍮の鍵")){
+
+ show(`<h2>鍵がかかっている</h2>
+
+ <p>ドアを開けるには鍵が必要だ。</p>
+
+ <button onclick="cabin()">戻る</button>`);
+
+ return;
+
+ }
+
+ corridor();
+
+}
+
+function corridor(){
+
+ show(`
+
+ <h2>CHAPTER 2：廊下</h2>
+
+ <p>長い廊下には誰もいない。</p>
+
+ <p>壁には古い絵画が飾られている。</p>
+
+ <button onclick="painting()">🖼️ 絵画を調べる</button>
+
+ <button onclick="engine()">⚙️ 機関室へ進む</button>
+
+ <button onclick="deck()">🚢 甲板へ向かう</button>
+
+ `);
+
+}
+
+function painting(){
+
+ clue=true;
+
+ code=true;
+
+ show(`
+
+ <h2>謎の絵画</h2>
+
+ <p>絵画の裏に、小さな文字が刻まれていた。</p>
+
+ <div class="info">「1912年、それが最後の合言葉。」</div>
+
+ <p>何かの暗証番号だろうか？</p>
+
+ <button onclick="corridor()">廊下に戻る</button>
+
+ `);
+
+}
+
+function engine(){
+
+ if(!clue){
+
+ show(`<h2>機関室の扉</h2>
+
+ <p>扉には暗証番号が必要らしい。先に廊下を調べよう。</p>
+
+ <button onclick="corridor()">戻る</button>`);
+
+ return;
+
+ }
+
+ show(`
+
+ <h2>CHAPTER 3：機関室</h2>
+
+ <p>巨大な機械が並ぶ機関室。</p>
+
+ <p>奥に古いバルブハンドルが落ちている。</p>
+
+ <button onclick="getValve()">🔧 バルブハンドルを拾う</button>
+
+ <button onclick="corridor()">廊下に戻る</button>
+
+ `);
+
+}
+
+function getValve(){
+
+ valve=true;
+
+ item("バルブハンドル");
+
+ show(`
+
+ <h2>アイテム獲得！</h2>
+
+ <p>バルブハンドルを手に入れた。</p>
+
+ <p>これで何かを動かせるかもしれない。</p>
+
+ <button onclick="corridor()">廊下に戻る</button>
+
+ `);
+
+}
+
+function deck(){
+
+ if(!valve){
+
+ show(`<h2>甲板への通路</h2>
+
+ <p>途中の防水扉が閉まっている。何か道具が必要だ。</p>
+
+ <button onclick="corridor()">戻る</button>`);
+
+ return;
+
+ }
+
+ finalScene();
+
+}
+
+function finalScene(){
+
+ show(`
+
+ <h2>CHAPTER 4：最後の甲板</h2>
+
+ <p>バルブハンドルを使い、防水扉を開けた。</p>
+
+ <p>目の前には月明かりに照らされた広大な海。</p>
+
+ <p>救命ボートが一隻残っている。</p>
+
+ <div class="info">翼「とも、急いで！一緒に脱出しよう！」</div>
+
+ <button class="primary" onclick="ending()">💙 翼と一緒にボートへ！</button>
+
+ `);
+
+}
+
+function ending(){
+
+ show(`
+
+ <h2>CHAPTER 1 CLEAR</h2>
+
+ <p>二人は無事に救命ボートへ乗り込んだ。</p>
+
+ <p>遠ざかっていくオルフェウス号。</p>
+
+ <p>しかし、船の最上階に誰かの姿が見えた……。</p>
+
+ <div class="info">「これは、まだ始まりにすぎない。」</div>
+
+ <h2 style="text-align:center">TO BE CONTINUED...</h2>
+
+ <button class="primary" onclick="location.reload()">最初から遊ぶ</button>
+
+ `);
+
+}
+
+title();
+
+</script>
+
+</body>
+
+</html> 
